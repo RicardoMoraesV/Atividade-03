@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f3f7f7">
+    <title>Entrar | Studio Flávio Celso</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  </head>
+  <body class="login-page">
+    <main class="login-card">
+      <header class="login-brand">
+        <div class="brand-lockup">
+          <svg class="brand-icon" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <circle cx="11" cy="34" r="6" stroke="currentColor" stroke-width="2.4"/>
+            <circle cx="11" cy="14" r="6" stroke="currentColor" stroke-width="2.4"/>
+            <path d="m15 17 26 26M15 31 41 5M21 24l8-8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="m23 8-7 12m13-14-8 15m15-7-8 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <p>Studio<br>Flávio Celso</p>
+        </div>
+        <p class="brand-caption">Agendamento Online</p>
+      </header>
+
+      <section class="login-panel" aria-labelledby="welcome-title">
+        <h1 id="welcome-title">Seja bem-vindo!</h1>
+        <p class="login-intro">Faça seu acesso para agendamento</p>
+
+        {% if error %}
+          <p class="notice notice-error" role="alert">{{ error }}</p>
+        {% endif %}
+
+        <form class="login-form" method="post">
+          <div class="login-field">
+            <label for="name">Nome</label>
+            <input id="name" name="name" type="text" placeholder="Digite seu nome" autocomplete="username" required>
+          </div>
+          <div class="login-field">
+            <label for="password">Senha</label>
+            <input id="password" name="password" type="password" placeholder="Digite sua senha" autocomplete="current-password" required>
+          </div>
+          <button type="submit" class="confirm-button">
+            <span>Avançar para Agendamento</span>
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="m7 4 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </form>
+      </section>
+
+      <footer class="login-footer">
+        <a href="mailto:contato@studioflaviocelso.com">Precisa de ajuda?</a>
+        <a href="#termos">Termos de uso</a>
+      </footer>
+    </main>
+  </body>
+</html>

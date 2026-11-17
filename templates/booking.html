@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f0eee9">
+    <title>Agendamento Online | Studio Flávio Celso</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  </head>
+  <body>
+    <main class="booking-card">
+      <header class="studio-header">
+        <div>
+          <p class="studio-name">Studio Flávio Celso</p>
+          <p class="studio-caption">Agendamento Online</p>
+        </div>
+        <svg class="scissors-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <circle cx="8" cy="23" r="4" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="8" cy="9" r="4" stroke="currentColor" stroke-width="1.8"/>
+          <path d="m11 11 17 17M11 21 28 4M14.5 16l5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </header>
+
+      <section class="booking-content" aria-labelledby="page-title">
+        <h1 id="page-title">Marque seu horário</h1>
+
+        {% if message %}
+          <p class="notice notice-success" role="status">{{ message }}</p>
+        {% elif error %}
+          <p class="notice notice-error" role="alert">{{ error }}</p>
+        {% endif %}
+
+        <form class="booking-form" method="post">
+          <div class="form-field">
+            <label for="date">Selecione a data</label>
+            <input id="date" name="date" type="date" value="{{ date_value }}" min="{{ today }}" required>
+          </div>
+
+          <fieldset class="form-field time-field">
+            <legend>Escolha o horário disponível</legend>
+            <div class="time-options">
+              {% for time in times %}
+                <label class="time-option">
+                  <input type="radio" name="time" value="{{ time }}" {% if time == time_value %}checked{% endif %} required>
+                  <span>{{ time }}</span>
+                </label>
+              {% endfor %}
+            </div>
+          </fieldset>
+
+          <div class="form-field service-field">
+            <label for="barber">Escolha o barbeiro</label>
+            <select id="barber" name="barber" required>
+              {% for barber_id, barber_name in barbers.items() %}
+                <option value="{{ barber_id }}" {% if barber_id == barber_value %}selected{% endif %}>{{ barber_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          {% for index in range(3) %}
+            <div class="form-field service-field">
+              <label for="service-{{ index + 1 }}">Escolha o serviço{% if index == 0 %}{% else %} (opcional){% endif %}</label>
+              <select id="service-{{ index + 1 }}" name="{% if index == 0 %}service{% else %}service_optional_{{ index }}{% endif %}" {% if index == 0 %}required{% endif %}>
+                <option value="">Selecione um serviço</option>
+                {% for service_id, service_name in services.items() %}
+                  <option value="{{ service_id }}" {% if service_values[index] == service_id %}selected{% endif %}>{{ service_name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          {% endfor %}
+
+          <div class="form-actions">
+            <button type="submit" class="confirm-button">
+              <span>Confirmar Agendamento</span>
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="m7 4 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </form>
+        <div class="footer-links">
+          <a href="{{ url_for('login') }}">Voltar ao início</a>
+          <span aria-hidden="true">|</span>
+          <form class="logout-form" method="post" action="{{ url_for('logout') }}">
+            <button type="submit" class="text-button">Sair</button>
+          </form>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
